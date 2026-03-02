@@ -1,17 +1,72 @@
 # RustChain Miner Setup Guide
 
-## Clone the Repo
+Step-by-step guide to run a RustChain miner on real hardware (RIP-200 Proof of Attestation).
+
+## Prerequisites
+
+- Real hardware (no VMs). VMs may attest, but rewards can be penalized or denied.
+- Python 3.8+ installed.
+- A `miner_id` (wallet name). This is the identifier you pass to the miner and use to check balance.
+
+## Get The Miner Scripts
+
+Recommended: clone the main RustChain repo (this keeps you on the latest miner updates):
 
 ```bash
 git clone https://github.com/Scottcjn/Rustchain.git
 cd Rustchain
 ```
 
-## Install Dependencies (Python)
+If you prefer direct downloads, use a platform-specific miner script from the repo:
 
 ```bash
-pip install -r requirements.txt
+# Linux (x86_64)
+curl -sSL https://raw.githubusercontent.com/Scottcjn/Rustchain/main/miners/linux/rustchain_linux_miner.py -o rustchain_linux_miner.py
+
+# macOS (Intel / Apple Silicon)
+curl -sSL https://raw.githubusercontent.com/Scottcjn/Rustchain/main/miners/macos/rustchain_mac_miner_v2.4.py -o rustchain_mac_miner_v2.4.py
+
+# Windows (GUI miner, run with Python)
+curl -sSL https://raw.githubusercontent.com/Scottcjn/Rustchain/main/miners/windows/rustchain_windows_miner.py -o rustchain_windows_miner.py
 ```
+
+## Run A Miner
+
+### Linux
+
+From the repo:
+
+```bash
+python3 miners/linux/rustchain_linux_miner.py --wallet YOUR_MINER_ID
+```
+
+If you downloaded the script directly:
+
+```bash
+python3 rustchain_linux_miner.py --wallet YOUR_MINER_ID
+```
+
+Note: the Linux miner currently uses the default node URL configured in the script (`NODE_URL`). To point at a different node, edit that constant.
+
+### macOS
+
+From the repo:
+
+```bash
+python3 miners/macos/rustchain_mac_miner_v2.4.py --wallet YOUR_MINER_ID --node https://50.28.86.131
+```
+
+### Windows
+
+Run the GUI miner from source:
+
+```powershell
+python miners\\windows\\rustchain_windows_miner.py
+```
+
+Then enter your wallet/miner ID in the UI and start mining.
+
+## Verify It Is Working
 
 ### Check That Your Miner Is Attesting
 

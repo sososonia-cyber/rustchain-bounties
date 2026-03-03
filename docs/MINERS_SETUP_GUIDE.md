@@ -70,12 +70,19 @@ Then enter your wallet/miner ID in the UI and start mining.
 
 ### Check That Your Miner Is Attesting
 
+Instead of using pipe commands, use separate steps:
+
 ```bash
-curl -sk https://50.28.86.131/api/miners | python3 - <<'PY'
-import json, sys
-miners = json.load(sys.stdin)
-print("active_miners:", len(miners))
-PY
+# Step 1: Download miner data to file
+curl -sk https://50.28.86.131/api/miners > miners_data.json
+
+# Step 2: Process with Python script
+python3 -c "
+import json
+with open('miners_data.json', 'r') as f:
+    miners = json.load(f)
+print('active_miners:', len(miners))
+"
 ```
 
 ### Check Your Balance
